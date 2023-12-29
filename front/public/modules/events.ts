@@ -7,9 +7,16 @@ import {AlertMessageData} from "../components/alertMessage/alertMessageView";
 import AlertMessage, {AlertMessageEventBus} from "../components/alertMessage/alertMessage";
 import {ConfirmMessageData} from "../components/confirmMessage/confirmMessageView";
 import ConfirmMessage, {ConfirmMessageEventBus} from "../components/confirmMessage/confirmMessage";
+import EmploeeCard, { EmploeeCardEventBus } from "../components/emploeeCard/emploeeCard.js";
+import { EmploeeCardInfo } from "../components/emploeeCard/emploeeCardView.js";
 
 
 export class Events {
+    static #emploeeCardEventBus: EmploeeCardEventBus = {
+        closeEvent: Events.#closeOverlay,
+        submitEvent: () => {},
+    }
+
     /**
      * Отрисовывает оверлей
      */
@@ -45,6 +52,14 @@ export class Events {
         await controller.render();
         overlayCenter.appendChild(controller.root);
         controller.subscribe(eventBus);
+    }
+
+    /**
+     * Создаёт оверлей с формой карточки сотрудника
+     */
+    static async makeEmploeeCardOverlay(data: EmploeeCardInfo): Promise<void> {
+        await Events.openOverlay();
+        await Events.#changeOverlay(new EmploeeCard(data), Events.#emploeeCardEventBus);
     }
 
     /**

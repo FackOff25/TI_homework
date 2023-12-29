@@ -1,0 +1,66 @@
+.emploee_list{
+    display: flexbox;
+    flex-flow: column;
+    width: 95%;
+    margin: 10px auto 10px;
+
+    &_grid{
+      display: grid;
+      grid-template-columns: 1fr 8fr 1fr 1fr 2fr;
+    }
+
+  &__element{
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 2px;
+    border-bottom: 0px;
+    border-color: $slight-darker-dark;
+    border-style: solid;
+
+    &__column{
+      border-left: 0px;
+      border-right: 0px;
+      border-top: 0px;
+      border-bottom: 0px;
+      border-color: $slight-darker-dark !important;
+      border-style: solid !important;  
+      font-size: 25px;
+      padding: 5px;
+    }
+    
+    &__left{
+      border-right: 2px;
+    }
+    &__center{
+      border-right: 2px;
+    }
+    &__header{
+      background-color: $light;
+    }
+
+    &__button {
+      display: flex;
+      float: left;
+      font-family: 'Roboto', serif;
+      font-style: normal;
+      font-size: 14px;
+      padding: 13px 3px 8px 3px;
+      margin: 0 auto;
+      line-height: 17px;
+      align-items: center;
+      cursor: pointer;
+    
+      &:hover {
+        color: $main;
+        fill: $main;
+      }
+    ;
+    
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    ;
+    }
+  }
+}

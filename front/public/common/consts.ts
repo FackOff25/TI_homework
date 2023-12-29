@@ -1,11 +1,8 @@
-import {SearchData} from "./types";
-
 const protocol = {
     http: 'http://',
     https: 'https://'
 }
 export const BaseUrl = '127.0.0.1';
-//export const BaseUrl = 'gototeam.ru';
 
 export const BackendUrl = protocol.https + BaseUrl + ':8080';
 //export const BackendUrl = protocol.https + BaseUrl + ':8080';
@@ -54,27 +51,6 @@ export const APIStrings = {
     authorPage: (login: string) => {return '/author/' + login},
     newArticlePage: () => {return '/new_article'},
     articleEditPage: (id: number) => {return '/article/' + id + '/edit/'},
-    searchPage: (searchData: SearchData) => {
-        let uri = '/search';
-
-        if (typeof searchData.request !== 'undefined'){
-            uri += '/' + searchData.request;
-        }
-
-        if (typeof searchData.author !== 'undefined'){
-            uri += '/publisher/' + searchData.author;
-        }
-
-        if (typeof searchData.tags !== 'undefined'){
-            uri += '/tags/'
-            searchData.tags.forEach((tag) => {
-                uri += tag + ',';
-            });
-            uri = uri.slice(0, -1);
-        }
-
-        return uri;
-    },
 }
 
 export const CommentaryParent = {

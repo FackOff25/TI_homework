@@ -6,23 +6,36 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.navbar {
-  z-index: 2;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 60px;
-  overflow: hidden;
-  background-color: $main;
+.root {
   display: grid;
-  grid-template-columns: 1fr 1.5fr 0.5fr 1fr;
-  gap: 10px;
+  margin-top: 60px;
+  width: 100%;
+  grid-template-columns: 1fr 5fr 1fr 1fr;
 }
 
 .header {
   background-color: $light;
   padding: 30px;
   text-align: center;
+}
+
+.sidebar__button {
+  width: auto;
+  height: fit-content;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 14px;
+
+  &:hover {
+    background: $slight-dark;
+  }
+;
+
+  &:active {
+    background: $slight-darker-dark;
+  }
+;
 }
 
 .navbar__button_bar {
@@ -201,13 +214,6 @@ body {
   background: $light;
   margin: 8px;
   border-radius: 5px;
-}
-
-.root {
-  display: grid;
-  margin-top: 60px;
-  width: 100%;
-  grid-template-columns: 1fr 2fr 1fr;
 }
 
 

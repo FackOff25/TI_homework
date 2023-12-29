@@ -1,4 +1,4 @@
-import {ImgPostData, RequestAnswer} from "../common/types";
+import {RequestAnswer} from "../common/types";
 import {APIurl} from "../common/consts";
 
 const REQUEST_TYPE = {
@@ -56,11 +56,6 @@ export class Ajax {
             credentials: 'include',
         };
 
-        if (this.#getCsrfCookie() !== null){
-            // @ts-ignore
-            fetchParams.headers[csrfHeader] = this.#getCsrfCookie();
-        }
-
         let status: number = 0;
 
         const response = fetch(url, fetchParams)
@@ -86,57 +81,5 @@ export class Ajax {
                 console.warn(error);
             });
         return response!;
-    }
-
-    postFile(requestParams: ImgPostData): Promise<void | RequestAnswer> {
-        const url = APIurl + (requestParams.url || '/');
-        const formData = new FormData();
-        formData.append('file', requestParams.body);
-        const fetchParams: object = {
-            body: formData,
-            mode: 'cors',
-            method: REQUEST_TYPE.POST,
-            credentials: 'include',
-            // https://muffinman.io/blog/uploading-files-using-fetch-multipart-form-data/
-            headers: {
-            //   'Content-Type': 'multipart/form-data',
-            },
-        };
-
-        if (this.#getCsrfCookie() !== null){
-            // @ts-ignore
-            fetchParams.headers[csrfHeader] = this.#getCsrfCookie();
-        }
-
-
-        let status = 0;
-        return fetch(url, fetchParams)
-            .then((response) => {
-                status = response.status;
-                return response.json();
-            })
-            .then((response) => {
-                const result: RequestAnswer = {
-                    status: status,
-                    response: response,
-                }
-                return result;
-            })
-            .catch((error) => {
-                console.warn(error);
-            });
-    }
-
-    #getCsrfCookie(){
-        let cookieArr = document.cookie.split(";");
-
-        for (let i = 0; i < cookieArr.length; i++) {
-            let cookiePair = cookieArr[i].split("=");
-            if ('_csrf' === cookiePair[0].trim()) {
-                return decodeURIComponent(cookiePair[1]);
-            }
-        }
-
-        return null;
     }
 }

@@ -9,10 +9,17 @@ import {ConfirmMessageData} from "../components/confirmMessage/confirmMessageVie
 import ConfirmMessage, {ConfirmMessageEventBus} from "../components/confirmMessage/confirmMessage";
 import EmploeeCard, { EmploeeCardEventBus } from "../components/emploeeCard/emploeeCard.js";
 import { EmploeeCardInfo } from "../components/emploeeCard/emploeeCardView.js";
+import { RequestCardInfo } from "../components/requestCard/requestCardView.js";
+import RequestCard, { RequestCardEventBus } from "../components/requestCard/requestCard.js";
 
 
 export class Events {
     static #emploeeCardEventBus: EmploeeCardEventBus = {
+        closeEvent: Events.#closeOverlay,
+        submitEvent: () => {},
+    }
+
+    static #requestCardEventBus: RequestCardEventBus = {
         closeEvent: Events.#closeOverlay,
         submitEvent: () => {},
     }
@@ -60,6 +67,14 @@ export class Events {
     static async makeEmploeeCardOverlay(data: EmploeeCardInfo): Promise<void> {
         await Events.openOverlay();
         await Events.#changeOverlay(new EmploeeCard(data), Events.#emploeeCardEventBus);
+    }
+
+    /**
+     * Создаёт оверлей с формой карточки запроса
+     */
+    static async makeRequestCardOverlay(data: RequestCardInfo): Promise<void> {
+        await Events.openOverlay();
+        await Events.#changeOverlay(new RequestCard(data), Events.#requestCardEventBus);
     }
 
     /**

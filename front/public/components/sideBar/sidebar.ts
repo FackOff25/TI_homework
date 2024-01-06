@@ -4,6 +4,7 @@ import NewEmployeeButton from "../newEmployeeButton/newEmployeeButton.js";
 import NewRequestButton from "../newRequestButton/newRequestButton.js";
 import { Subscription } from "../../common/types.js";
 import { Events } from "../../modules/events.js";
+import { Queries } from "../../modules/queries.js";
 type Children = {
     newEmploeeButton?: NewEmployeeButton;
     newRequestButton?: NewRequestButton;
@@ -35,11 +36,20 @@ export default class Sidebar extends BasicComponent {
         return this.root;
     }
 
-    subscribe(): void {
+    async subscribe(): Promise<void> {
         let subscription: Subscription;
         
         this.children.newEmploeeButton?.subscribe(() => {
             Events.makeEmploeeCardOverlay({});
+        });
+
+        const emploees = await Queries.getEmploeeList();
+        const equipment = await Queries.getEquipmentList()
+        this.children.newRequestButton?.subscribe(() => {
+            Events.makeRequestCardOverlay({
+                emploees: emploees,
+                equipment: equipment,
+            });
         });
     }
 };

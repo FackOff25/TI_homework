@@ -9,11 +9,23 @@ export type Subscription = {
     listener: EventListenerOrEventListenerObject
 }
 
+export type Equipment = {
+    Name: string,
+}
+
 export type EmploeeInfo = {
     ID: string,
     Name: string,
     Surname: string,
     Fathername: string,
+}
+
+export type RequestInfo = {
+    ID: string,
+    Equipment: Equipment,
+    Assigner: EmploeeInfo,
+    From: Date,
+    To: Date,
 }
 
 export type Listener = () => any;

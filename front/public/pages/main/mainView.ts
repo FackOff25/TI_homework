@@ -5,6 +5,8 @@ import EmploeeList from "../../components/emploeeList/emploeeList.js";
 import { EmploeeInfo } from "../../common/types.js";
 import { Events } from "../../modules/events.js";
 import { EmploeeCardInfo } from "../../components/emploeeCard/emploeeCardView.js";
+import { emploeesList } from "../../common/mockData.js";
+import { Queries } from "../../modules/queries.js";
 
 /**
  * Страница содержит главный компонент.
@@ -37,15 +39,6 @@ export default class MainView extends PageView {
         this.mainContentElement = mainContentElement;
         this.root.appendChild(this.mainContentElement);
 
-        const emploeeList: EmploeeList = new EmploeeList();
-        const emploee: EmploeeInfo = {
-            ID: "123",
-            Name: "Иван",
-            Surname: "Иванов",
-            Fathername: "Иванович",
-        };
-        this.mainContentElement.appendChild(emploeeList.render([emploee]));
-
         const sideContentElement = document.createElement('div');
         sideContentElement.classList.add('sideList');
         this.sideContentElement = sideContentElement;
@@ -58,8 +51,7 @@ export default class MainView extends PageView {
         this.root.appendChild(document.createElement('div'));
         this.children.set('navbar', navbar);
 
-        const info: EmploeeCardInfo = {
-        }
-        Events.makeEmploeeCardOverlay(info);
+        const emploeeList: EmploeeList = new EmploeeList();
+        this.mainContentElement.appendChild(emploeeList.render(await Queries.getEmploeeList()));
     }
 }

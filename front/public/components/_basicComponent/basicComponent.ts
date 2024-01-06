@@ -7,6 +7,7 @@ import {Subscription} from "../../common/types";
  */
 export default class BasicComponent {
     root: HTMLElement;
+    parent: HTMLElement | undefined;
     view: BasicComponentView;
     subscriptions: Subscription[];
 
@@ -17,6 +18,14 @@ export default class BasicComponent {
         this.root = document.createElement('div');
         this.view = new BasicComponentView();
         this.subscriptions = [];
+    }
+
+    /**
+     * Присоединение элемента к родителю
+     */
+    append_to(parent: HTMLElement) {
+        parent.appendChild(this.root);
+        this.parent = parent;
     }
 
     /**

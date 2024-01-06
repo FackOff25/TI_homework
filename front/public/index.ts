@@ -18,4 +18,8 @@ router
         }
         openedPage = PageLoaders.mainPage();
     })
+// @ts-expect-error TS(2304): Cannot find name 'Handlebars'.
+Handlebars.registerHelper('isEqual', function (value1, value2) {
+    return JSON.stringify(value1) === JSON.stringify(value2);
+  });
     

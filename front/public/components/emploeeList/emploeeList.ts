@@ -20,6 +20,13 @@ export default class EmploeeList extends BasicComponent {
     render(emploeeList: EmploeeInfo[]): HTMLElement {
         this.root = this.view.render();
 
+        emploeeList.sort((e1: EmploeeInfo, e2: EmploeeInfo) => {
+            if (e1.ID > e2.ID){
+                return 1;
+            }
+            return -1;
+        })
+
         emploeeList.forEach(emploee => {
             const element = new EmploeeListElement(emploee);
             this.root.appendChild(element.render());

@@ -53,7 +53,7 @@ export default class RequestCard extends BasicComponent {
                 const dateTo = dateToInput.value;
 
                 Queries.addRequest({
-                    ID: "",
+                    ID: 0,
                     Assigner: {
                         ID: assigner,
                         Name: "",
@@ -68,8 +68,8 @@ export default class RequestCard extends BasicComponent {
                     To: new Date(dateTo),
                 }).then(() => {
                     Events.openAlertMessage("Запрос успешно добавлен", "ОК", () => {
-                        Events.closeAlertMessage();
                         eventBus.closeEvent();
+                        window.location.reload();
                     });
                 }).catch(() => {
                     Events.openAlertMessage("Не удалось добавить запрос", "ОК", Events.closeAlertMessage);
@@ -83,7 +83,7 @@ export default class RequestCard extends BasicComponent {
                 const dateTo = dateToInput.value;
 
                 Queries.updateRequest({
-                    ID: this.data.info!.Assigner.ID,
+                    ID: this.data.info!.ID,
                     Assigner: {
                         ID: assigner,
                         Name: "",
@@ -98,8 +98,8 @@ export default class RequestCard extends BasicComponent {
                     To: new Date(dateTo),
                 }).then(() => {
                     Events.openAlertMessage("Запрос успешно обновлён", "ОК", () => {
-                        Events.closeAlertMessage();
                         eventBus.closeEvent();
+                        window.history.pushState(null, '', window.location.href);
                     });
                 }).catch(() => {
                     Events.openAlertMessage("Не удалось обновить запрос", "ОК", Events.closeAlertMessage);

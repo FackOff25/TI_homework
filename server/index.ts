@@ -102,7 +102,6 @@ app.get(/queries\/equipment\/get\/all/, async (req: any, res: any) => {
 })
 app.get('/queries/request/get/list/:userId([0-9]+)', async (req: any, res: any) => {
     database.getRequests(req.params.userId).then((requests) => {
-        console.log(requests);
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
         res.json({requests});
@@ -121,6 +120,35 @@ app.post(/queries\/request\/add/, async (req: any, res: any) => {
         date_to: req.body.date_to
     }
     database.addRequest(request).then(() => {
+        res.StatusCode = 200;
+        res.StatusMessage = 'OK';
+        res.end();
+    }).catch(() => {
+        res.StatusCode = 400;
+        res.StatusMessage = 'BAD/REQUEST';
+        res.end();
+    });
+})
+app.post(/queries\/request\/delete/, async (req: any, res: any) => {
+    database.deleteRequest(req.body.id).then(() => {
+        res.StatusCode = 200;
+        res.StatusMessage = 'OK';
+        res.end();
+    }).catch(() => {
+        res.StatusCode = 404;
+        res.StatusMessage = 'NOT/FOUND';
+        res.end();
+    });
+})
+app.post(/queries\/request\/update/, async (req: any, res: any) => {
+    const request: EqRequest = {
+        id: req.body.id,
+        assigner: req.body.assigner,
+        equipment: req.body.equipment,
+        date_from: req.body.date_from,
+        date_to: req.body.date_to
+    }
+    database.updateRequest(request).then(() => {
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
         res.end();

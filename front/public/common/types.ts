@@ -22,7 +22,7 @@ export type EmploeeInfo = {
 }
 
 export type RequestInfo = {
-    ID: string,
+    ID: number,
     Equipment: Equipment,
     Assigner: EmploeeInfo,
     From: Date,

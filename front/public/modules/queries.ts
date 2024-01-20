@@ -62,8 +62,8 @@ export class Queries {
     /**
      * Удаление запроса
      */
-    static async deleteRequest(id: string): Promise<void> {
-        return Requests.deleteRequest(parseInt(id));
+    static async deleteRequest(id: number): Promise<void> {
+        return Requests.deleteRequest(id);
     }
 
     /**

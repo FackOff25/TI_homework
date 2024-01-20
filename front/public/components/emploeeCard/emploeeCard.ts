@@ -79,10 +79,7 @@ export default class EmploeeCard extends BasicComponent {
                     Surname: surname,
                     Fathername: fathername,
                 }).then(() => {
-                    Events.openAlertMessage("Сотрудник успешно добавлен", "ОК", () => {
-                        Events.closeAlertMessage();
-                        eventBus.closeEvent();
-                    });
+                    Events.openAlertMessage("Сотрудник успешно добавлен", "ОК", eventBus.closeEvent);
                 }).catch(() => {
                     Events.openAlertMessage("Не удалось добавить сотрудника", "ОК", Events.closeAlertMessage);
                 })
@@ -122,10 +119,7 @@ export default class EmploeeCard extends BasicComponent {
                     Surname: surname,
                     Fathername: fathername,
                 }).then(() => {
-                    Events.openAlertMessage("Сотрудник успешно обновлён", "ОК", () => {
-                        Events.closeAlertMessage();
-                        eventBus.closeEvent();
-                    });
+                    Events.openAlertMessage("Сотрудник успешно обновлён", "ОК", eventBus.closeEvent);
                 }).catch(() => {
                     Events.openAlertMessage("Не удалось обновить сотрудника", "ОК", Events.closeAlertMessage);
                 })

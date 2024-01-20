@@ -29,7 +29,7 @@ const equipment2: Equipment = {
 export const equipmentList: Equipment[] = [equipment1, equipment2];
 
 const request1: RequestInfo = {
-    ID: "1",
+    ID: 1,
     Equipment: equipment1,
     Assigner: emploee1,
     From: new Date("2020-01-01"),
@@ -37,7 +37,7 @@ const request1: RequestInfo = {
 };
 
 const request2: RequestInfo = {
-    ID: "2",
+    ID: 2,
     Equipment: equipment2,
     Assigner: emploee1,
     From: new Date("2021-01-01"),

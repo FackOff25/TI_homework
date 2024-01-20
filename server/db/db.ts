@@ -164,12 +164,10 @@ export default class DB {
     }
     
     async addRequest(request: EqRequest): Promise<void>{
-        console.log(`insert into request(assigner, equipment, date_from, date_to) values(${request.assigner}, ${request.equipment}, '${request.date_from}', '${request.date_to}');`);
         try {
             const result = await this.#dbClient?.query(
                 `insert into request(assigner, equipment, date_from, date_to) values(${request.assigner}, ${request.equipment}, '${request.date_from}', '${request.date_to}');`
             )
-            console.log(result);
             return Promise.resolve();
         } catch (error) {
             console.error(error);
@@ -195,7 +193,7 @@ export default class DB {
         }
         try {
             const result = await this.#dbClient?.query(
-                `update request set assigner = '${request.assigner}', equipment = '${request.equipment}', date_from = '${request.date_from}, date_to = '${request.date_to}' where id=${request.id};`
+                `update request set assigner = ${request.assigner}, equipment = ${request.equipment}, date_from = '${request.date_from}', date_to = '${request.date_to}' where id=${request.id};`
             )
             return Promise.resolve();
         } catch (error) {

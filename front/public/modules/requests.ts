@@ -195,7 +195,7 @@ export class Requests {
                     name: string,
                 }) => {
                 requests.push({
-                    ID: "" + request.id,
+                    ID: request.id,
                     Assigner: {
                         ID: "" + code,
                         Name: "",

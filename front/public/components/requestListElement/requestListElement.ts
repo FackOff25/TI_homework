@@ -55,10 +55,10 @@ export default class RequestListElement extends BasicComponent {
             element: deleteButton,
             event: 'click',
             listener: () => {
-                Queries.deleteRequest(this.request.ID).catch(() => {
-                    Events.openAlertMessage("Не удалось удалить запрос", "ОК", Events.closeAlertMessage);
-                }).then(() => {
+                Queries.deleteRequest(this.request.ID).then(() => {
                     this.root.remove();
+                }).catch(() => {
+                    Events.openAlertMessage("Не удалось удалить запрос", "ОК", Events.closeAlertMessage);
                 })
             },
         }

@@ -23,7 +23,7 @@ export default class MainView extends PageView {
     async render() {
         await super.render();
         const navbar = new Navbar();
-        await navbar.render();
+        await navbar.render({label: "Сотрудники"});
         this.root.appendChild(navbar.root);
 
         const rootEl = document.createElement('div');

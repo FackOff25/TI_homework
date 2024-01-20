@@ -15,19 +15,20 @@ export default class RequestCardView extends BasicComponentView {
 
     render(info: RequestCardInfo): HTMLElement {
         const wrapper = document.createElement('div');
-        const isNewRequest : boolean = info.info == undefined;
+        const isNewRequest : boolean = info.info === undefined;
         const sign = isNewRequest ? "Новый Запрос" : "Редактировать";
 
-        const today: string = new Date().toISOString().split("T")[0];
+        const today: string = (new Date()).toISOString().split("T")[0];
+        console.log(JSON.stringify(info?.info?.Assigner));
         // @ts-expect-error TS(2304): Cannot find name 'Handlebars'.
         wrapper.innerHTML = Handlebars.templates['requestCard.html']({
             sign: sign,
             emploees: info.emploees,
             equipment: info.equipment,
-            to: info?.info?.To,
-            from: info?.info?.From,
-            emploee_set: info?.info?.Assigner.Name,
-            equipment_set: info?.info?.Equipment.Name,
+            to: info?.info?.To.toISOString().split("T")[0],
+            from: info?.info?.From.toISOString().split("T")[0],
+            emploee_set: info?.info?.Assigner,
+            equipment_set: info?.info?.Equipment,
             min_from_date_value: isNewRequest ? today : undefined,
             max_from_date_value: info?.info?.To.toISOString().split("T")[0],
             min_to_date_value: isNewRequest ? today : info?.info?.From.toISOString().split("T")[0],

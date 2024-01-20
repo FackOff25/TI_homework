@@ -24,8 +24,8 @@ export default class Navbar extends BasicComponent {
         this.view = new NavbarView();
     }
 
-    render(): HTMLElement {
-        this.root = this.view.render();
+    render(label?: {label: string}): HTMLElement {
+        this.root = this.view.render(label);
         return this.root;
     }
 

@@ -2,11 +2,11 @@ const protocol = {
     http: 'http://',
     https: 'https://'
 }
-export const BaseUrl = '127.0.0.1';
+export const BaseUrl = '127.0.0.1' + ':8081';
 
-export const BackendUrl = protocol.https + BaseUrl + ':8080';
+export const BackendUrl = protocol.http + BaseUrl;
 //export const BackendUrl = protocol.https + BaseUrl + ':8080';
-export const FrontUrl = protocol.https + BaseUrl;
+export const FrontUrl = protocol.http + BaseUrl;
 //export const FrontUrl = protocol.https + BaseUrl;
 
 export const APIurl = BackendUrl + '/api/v1';
@@ -27,18 +27,12 @@ export const SubscribeErrors = {
 
 export const API = {
     root: /^$/,
-    feedPage: /feed$/,
-    settingsPage: /settings$/,
-    articlePage: /article\/([0-9]+)(\?comments)?$/,
-    categoryPage: /category\/(.+)$/,
-    authorPage: /author\/(.+)$/,
-    newArticlePage: /new_article$/,
-    articleEditPage: /article\/([0-9]+)\/edit$/,
-    searchPage: /search(\/([^\/]+))?(\/publisher\/([^\/]+))?(\/tags\/(.+))?$/,
+    requestsPage: /requests\/([0-9]+)/,
 }
 
 export const APIStrings = {
     root: () => {return ''},
+    requestsPage: (id: string) => {return '/requests/' + id},
     feedPage: () => {return '/feed'},
     settingsPage: () => {return '/settings'},
     articlePage: (id: number, comments: boolean) => {

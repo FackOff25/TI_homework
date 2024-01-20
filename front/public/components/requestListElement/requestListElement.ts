@@ -1,11 +1,12 @@
 import BasicComponent from "../_basicComponent/basicComponent.js";
 import { RequestInfo, Subscription } from "../../common/types.js";
 import RequestListElementView from "./requestListElementView.js";
+import { Events } from "../../modules/events.js";
+import { Queries } from "../../modules/queries.js";
 
-export type EmploeeListElementEventBus = {
-    editEmploee: () => void;
-    deleteEmploee: () => void;
-    emploeesRequests: () => void;
+export type RequestListElementEventBus = {
+    editRequest: () => void;
+    deleteRequest: () => void;
 }
 
 /**
@@ -28,23 +29,26 @@ export default class RequestListElement extends BasicComponent {
         return this.root;
     }
 
-    subscribe(): void {
+    async subscribe(): Promise<void> {
         let subscription: Subscription;
-        /*
-        const editButton = this.root.querySelectorAll(".emploee_list__element__button")[0];
-        const deleteButton = this.root.querySelectorAll(".emploee_list__element__button")[1];
-        const requestsButton = this.root.querySelectorAll(".emploee_list__element__button")[2];
+
+        const emploees = await Queries.getEmploeeList();
+        const equipment = await Queries.getEquipmentList();
+        
+        const editButton = this.root.querySelectorAll(".request_list__element__button")[0];
+        const deleteButton = this.root.querySelectorAll(".request_list__element__button")[1];
 
         subscription = {
             element: editButton,
             event: 'click',
             listener: () => {
-                Events.makeEmploeeCardOverlay({
-                    info: this.emploee,
+                Events.makeRequestCardOverlay({
+                    info: this.request,
+                    emploees: emploees,
+                    equipment: equipment,
                 });
             },
         }
         this._subscribeEvent(subscription);
-        */
     }
 };

@@ -2,6 +2,8 @@ import EmploeeListElementView from "./emploeeListElementView.js";
 import BasicComponent from "../_basicComponent/basicComponent.js";
 import { EmploeeInfo, Subscription } from "../../common/types.js";
 import { Events } from "../../modules/events.js";
+import { PageLoaders } from "../../modules/pageLoaders.js";
+import { URIChanger } from "../../modules/uriChanger.js";
 
 export type EmploeeListElementEventBus = {
     editEmploee: () => void;
@@ -43,6 +45,15 @@ export default class EmploeeListElement extends BasicComponent {
                 Events.makeEmploeeCardOverlay({
                     info: this.emploee,
                 });
+            },
+        }
+        this._subscribeEvent(subscription);
+
+        subscription = {
+            element: requestsButton,
+            event: 'click',
+            listener: () => {
+                URIChanger.requestsPage(this.emploee.ID);
             },
         }
         this._subscribeEvent(subscription);

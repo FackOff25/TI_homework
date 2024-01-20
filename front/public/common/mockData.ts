@@ -1,4 +1,4 @@
-import { EmploeeInfo, Equipment } from "./types";
+import { EmploeeInfo, Equipment, RequestInfo } from "./types";
 
 const emploee1: EmploeeInfo = {
     ID: "123",
@@ -25,3 +25,21 @@ const equipment2: Equipment = {
 };
 
 export const equipmentList: Equipment[] = [equipment1, equipment2];
+
+const request1: RequestInfo = {
+    ID: "1",
+    Equipment: equipment1,
+    Assigner: emploee1,
+    From: new Date("2020-01-01"),
+    To: new Date("2020-01-02"),
+};
+
+const request2: RequestInfo = {
+    ID: "2",
+    Equipment: equipment2,
+    Assigner: emploee1,
+    From: new Date("2021-01-01"),
+    To: new Date("2021-01-02"),
+};
+
+export const requestList: RequestInfo[] = [request1, request2];

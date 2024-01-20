@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import * as path from 'path';
 import * as fs from 'fs';
 import DB from "./db/db.js";
-import { Emploee } from './db/types.js';
+import { Emploee, EqRequest } from './db/types.js';
 
 const app = express();
 const __dirname = path.resolve();
@@ -42,12 +42,12 @@ app.get(/queries\/emploee\/get\/all/, async (req: any, res: any) => {
     res.StatusMessage = 'OK';
     res.json({emploees});
 })
-app.get('^queries/emploee/get/:userId([0-9]+)', async (req: any, res: any) => {
-    const emploees = await database.getEmploee(req.params.userId);
+app.get('/api/v1/queries/emploee/get/:userId([0-9]+)', async (req: any, res: any) => {
+    const emploee = await database.getEmploee(req.params.userId);
 
     res.StatusCode = 200;
     res.StatusMessage = 'OK';
-    res.json({emploees});
+    res.json({emploee});
 })
 app.post(/queries\/emploee\/delete/, async (req: any, res: any) => {
     database.deleteEmploee(req.body.code).then(() => {
@@ -84,6 +84,43 @@ app.post(/queries\/emploee\/update/, async (req: any, res: any) => {
         fathername: req.body.fathername
     }
     database.updateEmploee(emploee).then(() => {
+        res.StatusCode = 200;
+        res.StatusMessage = 'OK';
+        res.end();
+    }).catch(() => {
+        res.StatusCode = 400;
+        res.StatusMessage = 'BAD/REQUEST';
+        res.end();
+    });
+})
+app.get(/queries\/equipment\/get\/all/, async (req: any, res: any) => {
+    const equipment = await database.getEquipment();
+
+    res.StatusCode = 200;
+    res.StatusMessage = 'OK';
+    res.json({equipment});
+})
+app.get('/api/v1/queries/request/get/list/:userId([0-9]+)', async (req: any, res: any) => {
+    database.getRequests(req.params.userId).then((requests) => {
+        console.log(requests);
+        res.StatusCode = 200;
+        res.StatusMessage = 'OK';
+        res.json({requests});
+        res.end();
+    }).catch(() => {
+        res.StatusCode = 400;
+        res.StatusMessage = 'BAD/REQUEST';
+        res.end();
+    });
+})
+app.get(/queries\/request\/add/, async (req: any, res: any) => {
+    const request: EqRequest = {
+        assigner: req.body.assigner,
+        equipment: req.body.equipment,
+        date_from: req.body.date_from,
+        date_to: req.body.date_to
+    }
+    database.addRequest(request).then(() => {
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
         res.end();

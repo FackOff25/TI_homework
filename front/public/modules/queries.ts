@@ -42,13 +42,13 @@ export class Queries {
      * Получение списка оборудования
      */
     static async getEquipmentList(): Promise<Equipment[]> {
-        return equipmentList;
+        return Requests.getEquipment();
     }
 
     /**
      * Получение списка запросов сотрудника
      */
-    static async getRequestList(ID: string): Promise<RequestInfo[]> {
-        return requestList;
+    static async getRequestList(id: string): Promise<RequestInfo[]> {
+        return Requests.getRequests(parseInt(id));
     }
 }

@@ -18,6 +18,8 @@ router
         if (openedPage !== undefined) {
             openedPage.destroy();
         }
+        openedPage = PageLoaders.requestsPage(id);
+        /*
         Queries.getEmploee(id).then(() => {
             openedPage = PageLoaders.requestsPage(id);
         }).catch((error) => {
@@ -25,7 +27,7 @@ router
                 openedPage = PageLoaders.error404();
             }
         });
-
+        */
     })
     .add('', () => {
         if (openedPage !== undefined) {

@@ -10,6 +10,7 @@ export type Subscription = {
 }
 
 export type Equipment = {
+    ID: number,
     Name: string,
 }
 

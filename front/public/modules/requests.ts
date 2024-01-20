@@ -2,7 +2,9 @@ import {Ajax} from "./ajax.js";
 import {requestParams} from "./ajax"
 import {
     EmploeeInfo,
-    RequestAnswer
+    Equipment,
+    RequestAnswer,
+    RequestInfo
 } from "../common/types";
 
 const config = {
@@ -12,6 +14,8 @@ const config = {
         emploeeAdd: '/queries/emploee/add',
         emploeeDelete: '/queries/emploee/delete',
         emploeeUpdate: '/queries/emploee/update',
+        equipmentList: '/queries/equipment/get/all',
+        requestList: '/queries/requests/get/list/',
     }
 }
 
@@ -69,9 +73,6 @@ export class Requests {
     static getEmploee(code: number): Promise<EmploeeInfo> {
         return ajax.get({
             url: config.hrefs.emploeeGet + code,
-            data: {
-                code: code,
-            }
         }).then((response) => {
             const result = response!;
             if (result.status !== 200) {
@@ -141,6 +142,72 @@ export class Requests {
             if (result.status !== 200) {
                 throw result.status;
             }
+        });
+    }
+
+    /**
+     * Запрашивает Оборудование
+     */
+        static getEquipment(): Promise<Equipment[]> {
+            return ajax.get({
+                url: config.hrefs.equipmentList,
+            }).then((response) => {
+                const result = response!;
+                if (result.status !== 200) {
+                    throw result.status;
+                }
+                const equipmentList: Equipment[] = [];
+                result.response.equipment.forEach((equipment: 
+                    {
+                        id: number,
+                        name: string,
+                    }) => {
+                    equipmentList.push({
+                        ID: equipment.id,
+                        Name: equipment.name,
+                    })
+                });;
+                return equipmentList;
+            });
+        }
+
+    /**
+     * Запрашивает Запросы (ba-dums)
+     */
+    static getRequests(code: number): Promise<RequestInfo[]> {
+        return ajax.get({
+            url: config.hrefs.requestList + code,
+        }).then((response) => {
+            const result = response!;
+            if (result.status !== 200) {
+                throw result.status;
+            }
+            const requests: RequestInfo[] = [];
+            result.response.requests.forEach((request: 
+                {
+                    id: number,
+                    equipment: number,
+                    date_from: string,
+                    date_to: string,
+                    name: string,
+                }) => {
+                requests.push({
+                    ID: "" + request.id,
+                    Assigner: {
+                        ID: "" + code,
+                        Name: "",
+                        Surname: "",
+                        Fathername: ""
+                    },
+                    Equipment: {
+                        ID: request.equipment,
+                        Name: request.name,
+                    },
+                    From: new Date(request.date_from),
+                    To: new Date(request.date_to),
+                })
+            });;
+            return requests;
         });
     }
 }

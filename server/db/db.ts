@@ -1,5 +1,5 @@
 import pg from 'pg';
-import { Emploee } from './types';
+import { Emploee, EqRequest } from './types';
 
 export type DB_CONFIG = {
     host: string,
@@ -10,6 +10,10 @@ export type DB_CONFIG = {
 }
 
 export default class DB {
+    #dateString(date: Date): string{
+        return date.toLocaleDateString('sv');
+    }
+
     #dbClient: pg.Client | null = null;
     #dbHost = '';
     #dbPort = 5432;
@@ -114,5 +118,91 @@ export default class DB {
 
     //
     // End of emploee Block
+    //
+
+    //
+    // Equipment Block
+    //
+    async getEquipment(): Promise<any[] | undefined>{
+        try {
+            const requests = await this.#dbClient?.query(
+                `select id, name from equipment;`
+            )
+            return requests?.rows;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    //
+    // End of equipment Block
+    //
+
+    //
+    // Request Block
+    //
+    async getRequests(code: number): Promise<any[] | undefined>{
+        try {
+            const requests = await this.#dbClient?.query(
+                `select request.id, request.equipment, request.date_from, request.date_to, equipment.name from request join equipment on request.equipment=equipment.id where assigner=${code};`
+            )
+            return requests?.rows;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async getRequest(id: number): Promise<any | undefined>{
+        try {
+            const request = await this.#dbClient?.query(
+                `select id, assigner, equipment, date_from, date_to from emploee where id=${id};`
+            )
+            return request?.rows[0];
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    
+    async addRequest(request: EqRequest): Promise<void>{
+        try {
+            const result = await this.#dbClient?.query(
+                `insert into requset(assigner, equipment, date_from, date_to) values('${request.assigner}', '${request.equipment}', '${request.date_from}', '${request.date_to}');`
+            )
+            return Promise.resolve();
+        } catch (error) {
+            console.error(error);
+            return Promise.reject(error);
+        }
+    }
+
+    async deleteRequest(id: number): Promise<void>{
+        try {
+            const result = await this.#dbClient?.query(
+                `delete from requset where id=${id};`
+            )
+            return Promise.resolve();
+        } catch (error) {
+            console.error(error);
+            return Promise.reject(error);
+        }
+    }
+
+    async updateRequest(request: EqRequest): Promise<void>{
+        if (request.id === undefined) {
+            return Promise.reject("no id");
+        }
+        try {
+            const result = await this.#dbClient?.query(
+                `update request set assigner = '${request.assigner}', equipment = '${request.equipment}', date_from = '${request.date_from}, date_to = '${request.date_to}' where id=${request.id};`
+            )
+            return Promise.resolve();
+        } catch (error) {
+            console.error(error);
+            return Promise.reject(error);
+        }
+    }
+
+    //
+    // End of request Block
     //
 }

@@ -17,10 +17,12 @@ const emploee2: EmploeeInfo = {
 export const emploeesList: EmploeeInfo[] = [emploee1, emploee2];
 
 const equipment1: Equipment = {
+    ID: 1,
     Name: "Токарный станок",
 };
 
 const equipment2: Equipment = {
+    ID: 2,
     Name: "Столярный станок",
 };
 

@@ -5,31 +5,23 @@ DB_USER_PASS=ti_hw
 su postgres <<EOF
 createdb  $DB_NAME;
 psql -c "CREATE USER $DB_USER WITH PASSWORD '$DB_USER_PASS';"
-psql -U postgres -d $DB_NAME -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-
-psql -U postgres -d  $DB_NAME -c "CREATE TABLE IF NOT EXISTS eqType (
-	id			uuid DEFAULT uuid_generate_v4 () PRIMARY KEY,
-	name		VARCHAR(45)
-);"
 
 psql -U postgres -d  $DB_NAME -c "CREATE TABLE IF NOT EXISTS equipment ( 
-	id			uuid DEFAULT uuid_generate_v4 () PRIMARY KEY,
+	id			SERIAL PRIMARY KEY,
 	name		VARCHAR(45) NOT NULL,
-	eq_id		uuid REFERENCES eqType(id) ON DELETE CASCADE
 );"
 
 psql -U postgres -d  $DB_NAME -c "CREATE TABLE IF NOT EXISTS emploee ( 
-	id			uuid DEFAULT uuid_generate_v4 () PRIMARY KEY,
-	code		SERIAL,
+	code		SERIAL PRIMARY KEY,
 	name		VARCHAR(45) NOT NULL,
 	surname		VARCHAR(45) NOT NULL,
 	fathername	VARCHAR(45) NOT NULL
 );"
 
 psql -U postgres -d  $DB_NAME -c "CREATE TABLE IF NOT EXISTS request ( 
-	id				uuid DEFAULT uuid_generate_v4 () PRIMARY KEY,
-	assigner		uuid REFERENCES emploee(id) ON DELETE CASCADE,
-	equipment		uuid REFERENCES equipment(id) ON DELETE CASCADE,
+	id					SERIAL PRIMARY KEY,
+	assigner			INTEGER REFERENCES emploee(code) ON DELETE CASCADE,
+	equipment			INTEGER REFERENCES equipment(id) ON DELETE CASCADE,
 	date_from			DATE NOT NULL,
 	date_to				DATE NOT NULL
 );"

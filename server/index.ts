@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import * as path from 'path';
 import * as fs from 'fs';
 import DB from "./db/db.js";
+import { Emploee } from './db/types.js';
 
 const app = express();
 const __dirname = path.resolve();
@@ -34,12 +35,63 @@ app.get(/modules\/handlebars\.js/, (req: any, res: any) => {
 app.get(/icons\.svg/, (req: any, res: any) => {
     res.sendFile(path.resolve(__dirname, 'front', 'public', 'icons.svg'));
 })
-app.get(/queries\/emploee\/get\/list/, async (req: any, res: any) => {
+app.get(/queries\/emploee\/get\/all/, async (req: any, res: any) => {
     const emploees = await database.getEmploees();
 
     res.StatusCode = 200;
     res.StatusMessage = 'OK';
     res.json({emploees});
+})
+app.get('^queries/emploee/get/:userId([0-9]+)', async (req: any, res: any) => {
+    const emploees = await database.getEmploee(req.params.userId);
+
+    res.StatusCode = 200;
+    res.StatusMessage = 'OK';
+    res.json({emploees});
+})
+app.post(/queries\/emploee\/delete/, async (req: any, res: any) => {
+    database.deleteEmploee(req.body.code).then(() => {
+        res.StatusCode = 200;
+        res.StatusMessage = 'OK';
+        res.end();
+    }).catch(() => {
+        res.StatusCode = 404;
+        res.StatusMessage = 'NOT/FOUND';
+        res.end();
+    });
+})
+app.post(/queries\/emploee\/add/, async (req: any, res: any) => {
+    const emploee: Emploee = {
+        name: req.body.name,
+        surname: req.body.surname,
+        fathername: req.body.fathername
+    }
+    database.addEmploee(emploee).then(() => {
+        res.StatusCode = 200;
+        res.StatusMessage = 'OK';
+        res.end();
+    }).catch(() => {
+        res.StatusCode = 400;
+        res.StatusMessage = 'BAD/REQUEST';
+        res.end();
+    });
+})
+app.post(/queries\/emploee\/update/, async (req: any, res: any) => {
+    const emploee: Emploee = {
+        code: req.body.code,
+        name: req.body.name,
+        surname: req.body.surname,
+        fathername: req.body.fathername
+    }
+    database.updateEmploee(emploee).then(() => {
+        res.StatusCode = 200;
+        res.StatusMessage = 'OK';
+        res.end();
+    }).catch(() => {
+        res.StatusCode = 400;
+        res.StatusMessage = 'BAD/REQUEST';
+        res.end();
+    });
 })
 app.get(/.*/, (req: any, res: any) => {
     res.sendFile(path.resolve(__dirname, 'front', 'public', 'index.html'));

@@ -16,12 +16,11 @@ import RequestCard, { RequestCardEventBus } from "../components/requestCard/requ
 export class Events {
     static #emploeeCardEventBus: EmploeeCardEventBus = {
         closeEvent: Events.#closeOverlay,
-        submitEvent: () => {},
     }
 
     static #requestCardEventBus: RequestCardEventBus = {
         closeEvent: Events.#closeOverlay,
-        submitEvent: () => {},
+
     }
 
     /**
@@ -82,8 +81,8 @@ export class Events {
      * @param {HTMLElement} element
      * @param {string} message
      */
-    static #makeInvalid(element: HTMLElement, message: string): void {
-        Events.#makeValid(element);
+    static makeInvalid(element: HTMLElement, message: string): void {
+        Events.makeValid(element);
         const errorClass = "error-message"
         const siblings = element.parentNode!.childNodes;
 
@@ -112,7 +111,7 @@ export class Events {
      * Убирает невалидность формы element
      * @param {HTMLElement} element
      */
-    static #makeValid(element: HTMLElement): void {
+    static makeValid(element: HTMLElement): void {
         if (typeof (element as HTMLFormElement).setCustomValidity !== 'undefined') {
             (element as HTMLFormElement).setCustomValidity('');
         }

@@ -4,6 +4,8 @@ import { EmploeeInfo, Subscription } from "../../common/types.js";
 import { Events } from "../../modules/events.js";
 import { PageLoaders } from "../../modules/pageLoaders.js";
 import { URIChanger } from "../../modules/uriChanger.js";
+import { Requests } from "../../modules/requests.js";
+import { Queries } from "../../modules/queries.js";
 
 export type EmploeeListElementEventBus = {
     editEmploee: () => void;
@@ -45,6 +47,19 @@ export default class EmploeeListElement extends BasicComponent {
                 Events.makeEmploeeCardOverlay({
                     info: this.emploee,
                 });
+            },
+        }
+        this._subscribeEvent(subscription);
+
+        subscription = {
+            element: deleteButton,
+            event: 'click',
+            listener: () => {
+                Queries.deleteEmploee(this.emploee.ID).catch(() => {
+                    Events.openAlertMessage("Не удалось удалить сотрудника", "ОК", Events.closeAlertMessage);
+                }).then(() => {
+                    this.root.remove();
+                })
             },
         }
         this._subscribeEvent(subscription);

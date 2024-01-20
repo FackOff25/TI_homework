@@ -1,9 +1,9 @@
 import BasicComponent from "../_basicComponent/basicComponent.js";
 import {Listener, Subscription} from "../../common/types";
 import RequestCardView, { RequestCardInfo } from "./requestCardView.js";
+import { Queries } from "../../modules/queries.js";
 
 export type RequestCardEventBus = {
-    submitEvent: Listener,
     closeEvent: Listener,
 }
 
@@ -38,10 +38,21 @@ export default class RequestCard extends BasicComponent {
         this._subscribeEvent(subscription);
         
         const submitButton = this.root.querySelector('#request_card__submit_button')!;
+        let submitEvent: Listener;
+        if (this.data.info === undefined) {
+            submitEvent = () => {
+                
+            };
+        }else{
+            submitEvent = () => {
+
+            };
+        }
+
         subscription = {
             element: submitButton,
             event: 'click',
-            listener: eventBus.submitEvent,
+            listener: submitEvent,
         }
         this._subscribeEvent(subscription);
     }

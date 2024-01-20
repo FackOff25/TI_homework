@@ -3,10 +3,10 @@ import {
     Listener,
 } from "../common/types";
 import BasicComponent from "../components/_basicComponent/basicComponent.js";
-import {AlertMessageData} from "../components/alertMessage/alertMessageView";
-import AlertMessage, {AlertMessageEventBus} from "../components/alertMessage/alertMessage";
-import {ConfirmMessageData} from "../components/confirmMessage/confirmMessageView";
-import ConfirmMessage, {ConfirmMessageEventBus} from "../components/confirmMessage/confirmMessage";
+import {AlertMessageData} from "../components/alertMessage/alertMessageView.js";
+import AlertMessage, {AlertMessageEventBus} from "../components/alertMessage/alertMessage.js";
+import {ConfirmMessageData} from "../components/confirmMessage/confirmMessageView.js";
+import ConfirmMessage, {ConfirmMessageEventBus} from "../components/confirmMessage/confirmMessage.js";
 import EmploeeCard, { EmploeeCardEventBus } from "../components/emploeeCard/emploeeCard.js";
 import { EmploeeCardInfo } from "../components/emploeeCard/emploeeCardView.js";
 import { RequestCardInfo } from "../components/requestCard/requestCardView.js";

@@ -1,6 +1,6 @@
 import BasicComponent from "../_basicComponent/basicComponent.js";
 import {Listener, Subscription} from "../../common/types";
-import ConfirmMessageView, {ConfirmMessageData} from "./confirmMessageView";
+import ConfirmMessageView, {ConfirmMessageData} from "./confirmMessageView.js";
 import {read} from "fs";
 
 export type ConfirmMessageEventBus = {

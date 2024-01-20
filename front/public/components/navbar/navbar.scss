@@ -7,13 +7,14 @@
     overflow: hidden;
     background-color: $main;
     display: grid;
-    grid-template-columns: 1fr 1.5fr 0.5fr 1fr;
+    grid-template-columns: 8fr 1fr;
     gap: 10px;
     background: linear-gradient(180deg, $darken-main 0%, $main 100%);;
   }
 
 .navbar__sign{
-    margin: auto;
+    margin: auto 10px;
     font-size: 30px;
     color: $light;
+    width: -moz-available;
 }

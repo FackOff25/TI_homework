@@ -1,6 +1,6 @@
 import PageView from "../_basic/pageView.js";
 import Navbar from "../../components/navbar/navbar.js";
-import Error404 from "../../components/error404/error404";
+import Error404 from "../../components/error404/error404.js";
 
 /**
  * Страница содержит главный компонент - ленту новостей, хедер, сайдбар.

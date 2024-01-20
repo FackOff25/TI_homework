@@ -1,5 +1,5 @@
 import {RequestAnswer} from "../common/types";
-import {APIurl} from "../common/consts";
+import {APIurl} from "../common/consts.js";
 
 const REQUEST_TYPE = {
     GET: 'GET',

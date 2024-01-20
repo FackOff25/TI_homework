@@ -1,5 +1,5 @@
 import BasicComponent from "../_basicComponent/basicComponent.js";
-import Error404View from "./error404View";
+import Error404View from "./error404View.js";
 
 /**
  * ViewModel-компонент соответсвующего View

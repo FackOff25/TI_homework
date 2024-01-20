@@ -1,12 +1,13 @@
-import { emploeesList, equipmentList, requestList } from "../common/mockData";
+import { emploeesList, equipmentList, requestList } from "../common/mockData.js";
 import { EmploeeInfo, Equipment, RequestInfo } from "../common/types";
+import { Requests } from "./requests.js";
 
 export class Queries {
     /**
      * Получение списка сотрудников
      */
     static async getEmploeeList(): Promise<EmploeeInfo[]> {
-        return emploeesList;
+        return Requests.getEmploees();
     }
 
     /**

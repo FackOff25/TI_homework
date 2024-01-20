@@ -1,4 +1,4 @@
-import {FrontUrl} from "../../common/consts";
+import {FrontUrl} from "../../common/consts.js";
 
 /**
  * @class BasicComponentView

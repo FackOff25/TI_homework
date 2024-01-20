@@ -12,6 +12,7 @@ export class URIChanger {
      * Перемещает на страницу запросов
      */
     static requestsPage(id: string) {
+        console.log(FrontUrl + APIStrings.requestsPage(id))
         window.history.pushState(null, '', FrontUrl + APIStrings.requestsPage(id));
     }
 

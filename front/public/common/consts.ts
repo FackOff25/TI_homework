@@ -9,7 +9,7 @@ export const BackendUrl = protocol.http + BaseUrl;
 export const FrontUrl = protocol.http + BaseUrl;
 //export const FrontUrl = protocol.https + BaseUrl;
 
-export const APIurl = BackendUrl + '/api/v1';
+export const APIurl = BackendUrl/* + '/api/v1'*/;
 
 export const ResponseErrors = {
     emailInvalid: "invalid email",

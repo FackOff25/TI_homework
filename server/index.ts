@@ -42,7 +42,7 @@ app.get(/queries\/emploee\/get\/all/, async (req: any, res: any) => {
     res.StatusMessage = 'OK';
     res.json({emploees});
 })
-app.get('/api/v1/queries/emploee/get/:userId([0-9]+)', async (req: any, res: any) => {
+app.get('/queries/emploee/get/:userId([0-9]+)', async (req: any, res: any) => {
     const emploee = await database.getEmploee(req.params.userId);
 
     res.StatusCode = 200;
@@ -100,7 +100,7 @@ app.get(/queries\/equipment\/get\/all/, async (req: any, res: any) => {
     res.StatusMessage = 'OK';
     res.json({equipment});
 })
-app.get('/api/v1/queries/request/get/list/:userId([0-9]+)', async (req: any, res: any) => {
+app.get('/queries/request/get/list/:userId([0-9]+)', async (req: any, res: any) => {
     database.getRequests(req.params.userId).then((requests) => {
         console.log(requests);
         res.StatusCode = 200;
@@ -113,7 +113,7 @@ app.get('/api/v1/queries/request/get/list/:userId([0-9]+)', async (req: any, res
         res.end();
     });
 })
-app.get(/queries\/request\/add/, async (req: any, res: any) => {
+app.post(/queries\/request\/add/, async (req: any, res: any) => {
     const request: EqRequest = {
         assigner: req.body.assigner,
         equipment: req.body.equipment,

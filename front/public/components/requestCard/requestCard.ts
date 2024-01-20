@@ -2,6 +2,7 @@ import BasicComponent from "../_basicComponent/basicComponent.js";
 import {Listener, Subscription} from "../../common/types";
 import RequestCardView, { RequestCardInfo } from "./requestCardView.js";
 import { Queries } from "../../modules/queries.js";
+import { Events } from "../../modules/events.js";
 
 export type RequestCardEventBus = {
     closeEvent: Listener,
@@ -28,6 +29,11 @@ export default class RequestCard extends BasicComponent {
 
     subscribe(eventBus: RequestCardEventBus): void {
         let subscription: Subscription;
+
+        const assignerInput = (this.root.querySelector('#emploee_form')! as HTMLSelectElement);
+        const equipmentInput = (this.root.querySelector('#equipment_form')! as HTMLSelectElement);
+        const dateFromInput = (this.root.querySelector('#request_card__from_date')! as HTMLInputElement);
+        const dateToInput = (this.root.querySelector('#request_card__to_date')! as HTMLInputElement);
         
         const closeButton = this.root.querySelector('#request_card__cross')!;
         subscription = {
@@ -41,11 +47,63 @@ export default class RequestCard extends BasicComponent {
         let submitEvent: Listener;
         if (this.data.info === undefined) {
             submitEvent = () => {
-                
+                const assigner = assignerInput.options[assignerInput.selectedIndex].getAttribute("data-em-id")!;
+                const equipment = equipmentInput.options[equipmentInput.selectedIndex].getAttribute("data-eq-id")!;
+                const dateFrom = dateFromInput.value;
+                const dateTo = dateToInput.value;
+
+                Queries.addRequest({
+                    ID: "",
+                    Assigner: {
+                        ID: assigner,
+                        Name: "",
+                        Surname: "",
+                        Fathername: ""
+                    },
+                    Equipment: {
+                        ID: parseInt(equipment),
+                        Name: ""
+                    },
+                    From: new Date(dateFrom),
+                    To: new Date(dateTo),
+                }).then(() => {
+                    Events.openAlertMessage("Запрос успешно добавлен", "ОК", () => {
+                        Events.closeAlertMessage();
+                        eventBus.closeEvent();
+                    });
+                }).catch(() => {
+                    Events.openAlertMessage("Не удалось добавить запрос", "ОК", Events.closeAlertMessage);
+                })
             };
         }else{
             submitEvent = () => {
+                const assigner = assignerInput.options[assignerInput.selectedIndex].getAttribute("data-em-id")!;
+                const equipment = equipmentInput.options[equipmentInput.selectedIndex].getAttribute("data-eq-id")!;
+                const dateFrom = dateFromInput.value;
+                const dateTo = dateToInput.value;
 
+                Queries.updateRequest({
+                    ID: this.data.info!.Assigner.ID,
+                    Assigner: {
+                        ID: assigner,
+                        Name: "",
+                        Surname: "",
+                        Fathername: ""
+                    },
+                    Equipment: {
+                        ID: parseInt(equipment),
+                        Name: ""
+                    },
+                    From: new Date(dateFrom),
+                    To: new Date(dateTo),
+                }).then(() => {
+                    Events.openAlertMessage("Запрос успешно обновлён", "ОК", () => {
+                        Events.closeAlertMessage();
+                        eventBus.closeEvent();
+                    });
+                }).catch(() => {
+                    Events.openAlertMessage("Не удалось обновить запрос", "ОК", Events.closeAlertMessage);
+                })
             };
         }
 
@@ -53,6 +111,24 @@ export default class RequestCard extends BasicComponent {
             element: submitButton,
             event: 'click',
             listener: submitEvent,
+        }
+        this._subscribeEvent(subscription);
+
+        subscription = {
+            element: dateFromInput,
+            event: 'change',
+            listener: () => {
+                dateToInput.setAttribute("min", dateFromInput.value);
+            },
+        }
+        this._subscribeEvent(subscription);
+
+        subscription = {
+            element: dateToInput,
+            event: 'change',
+            listener: () => {
+                dateFromInput.setAttribute("max", dateToInput.value);
+            },
         }
         this._subscribeEvent(subscription);
     }

@@ -7,12 +7,12 @@
         <div class="request_card__inputs_wrapper">
             <select id="emploee_form" class="select_menu">
                 {{#each emploees}}
-                <option {{#if (isEqual this emploee_set)}}selected{{/if}} data-em-id={{this.ID}}>{{this.Name}} {{this.Surname}} {{this.Fathername}}</option>
+                <option>{{this.Name}} {{this.Surname}} {{this.Fathername}}</option>
                 {{/each}}
             </select>
             <select id="equipment_form" class="select_menu">
                 {{#each equipment}}
-                <option {{#if (isEqual this equipment_set)}}selected{{/if}}>{{this.Name}}</option>
+                <option>{{this.Name}}</option>
                 {{/each}}
             </select>
             <input type="date" id="request_card__from_date" name="request_card__from_date"

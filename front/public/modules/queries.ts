@@ -51,4 +51,25 @@ export class Queries {
     static async getRequestList(id: string): Promise<RequestInfo[]> {
         return Requests.getRequests(parseInt(id));
     }
+
+    /**
+     * Добавление запроса
+     */
+    static async addRequest(request: RequestInfo): Promise<void> {
+        return Requests.addRequest(request);
+    }
+
+    /**
+     * Удаление запроса
+     */
+    static async deleteRequest(id: string): Promise<void> {
+        return Requests.deleteRequest(parseInt(id));
+    }
+
+    /**
+     * Обновление запроса
+     */
+    static async updateRequest(request: RequestInfo): Promise<void> {
+        return Requests.updateRequest(request);
+    }
 }

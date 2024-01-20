@@ -164,10 +164,12 @@ export default class DB {
     }
     
     async addRequest(request: EqRequest): Promise<void>{
+        console.log(`insert into request(assigner, equipment, date_from, date_to) values(${request.assigner}, ${request.equipment}, '${request.date_from}', '${request.date_to}');`);
         try {
             const result = await this.#dbClient?.query(
-                `insert into requset(assigner, equipment, date_from, date_to) values('${request.assigner}', '${request.equipment}', '${request.date_from}', '${request.date_to}');`
+                `insert into request(assigner, equipment, date_from, date_to) values(${request.assigner}, ${request.equipment}, '${request.date_from}', '${request.date_to}');`
             )
+            console.log(result);
             return Promise.resolve();
         } catch (error) {
             console.error(error);
@@ -178,7 +180,7 @@ export default class DB {
     async deleteRequest(id: number): Promise<void>{
         try {
             const result = await this.#dbClient?.query(
-                `delete from requset where id=${id};`
+                `delete from request where id=${id};`
             )
             return Promise.resolve();
         } catch (error) {

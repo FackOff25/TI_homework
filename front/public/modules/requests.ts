@@ -15,7 +15,10 @@ const config = {
         emploeeDelete: '/queries/emploee/delete',
         emploeeUpdate: '/queries/emploee/update',
         equipmentList: '/queries/equipment/get/all',
-        requestList: '/queries/requests/get/list/',
+        requestList: '/queries/request/get/list/',
+        requestAdd: '/queries/request/add',
+        requestDelete: '/queries/request/delete',
+        requestUpdate: '/queries/request/update',
     }
 }
 
@@ -208,6 +211,64 @@ export class Requests {
                 })
             });;
             return requests;
+        });
+    }
+
+    /**
+     * Добавляет Запрос
+     */
+    static addRequest(request: RequestInfo): Promise<void> {
+        return ajax.post({
+            url: config.hrefs.requestAdd,
+            data: {
+                equipment: request.Equipment.ID,
+                assigner: request.Assigner.ID,
+                date_from: request.From.toLocaleDateString('sv'),
+                date_to: request.To.toLocaleDateString('sv'),
+            }
+        }).then((response) => {
+            const result = response!;
+            if (result.status !== 200) {
+                throw result.status;
+            }
+        });
+    }
+
+    /**
+     * Удаляет Запрос
+     */
+    static deleteRequest(id: number): Promise<void> {
+        return ajax.post({
+            url: config.hrefs.requestDelete,
+            data: {
+                id: id,
+            }
+        }).then((response) => {
+            const result = response!;
+            if (result.status !== 200) {
+                throw result.status;
+            }
+        });
+    }
+
+    /**
+     * Обновляет Запрос
+     */
+    static updateRequest(request: RequestInfo): Promise<void> {
+        return ajax.post({
+            url: config.hrefs.requestUpdate,
+            data: {
+                id: request.ID,
+                equipment: request.Equipment.ID,
+                assigner: request.Assigner.ID,
+                date_from: request.From.toLocaleDateString('sv'),
+                date_to: request.To.toLocaleDateString('sv'),
+            }
+        }).then((response) => {
+            const result = response!;
+            if (result.status !== 200) {
+                throw result.status;
+            }
         });
     }
 }

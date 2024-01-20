@@ -50,5 +50,18 @@ export default class RequestListElement extends BasicComponent {
             },
         }
         this._subscribeEvent(subscription);
+
+        subscription = {
+            element: deleteButton,
+            event: 'click',
+            listener: () => {
+                Queries.deleteRequest(this.request.ID).catch(() => {
+                    Events.openAlertMessage("Не удалось удалить запрос", "ОК", Events.closeAlertMessage);
+                }).then(() => {
+                    this.root.remove();
+                })
+            },
+        }
+        this._subscribeEvent(subscription);
     }
 };

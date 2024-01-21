@@ -71,9 +71,13 @@ export default class DB {
             const emploee = await this.#dbClient?.query(
                 `select code, name, surname, fathername from emploee where code=${code};`
             )
+            if (emploee?.rows.length === 0){
+                throw "Not Found"
+            }
             return emploee?.rows[0];
         } catch (error) {
             console.error(error);
+            return Promise.reject(error);
         }
     }
     

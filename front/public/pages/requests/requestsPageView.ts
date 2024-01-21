@@ -20,7 +20,7 @@ export default class RequestsPageView extends PageView {
     async render(emploee: EmploeeInfo) {
         await super.render();
         const navbar = new Navbar();
-        const label: string = "Запросы сотрудника" + emploee.Name + " " + emploee.Surname + " " + emploee.Fathername + " ID: " + emploee.ID;
+        const label: string = "Запросы сотрудника " + emploee.Name + " " + emploee.Surname + " " + emploee.Fathername + " ID: " + emploee.ID;
         await navbar.render({label: label});
         this.root.appendChild(navbar.root);
 

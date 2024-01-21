@@ -52,6 +52,23 @@ export default class RequestCard extends BasicComponent {
                 const dateFrom = dateFromInput.value;
                 const dateTo = dateToInput.value;
 
+                let invalid = false;
+                if (dateFrom === "") {
+                    Events.makeInvalid(dateFromInput, "Выберите начало срока заявки");
+                    invalid = true;
+                } else {
+                    Events.makeValid(dateFromInput);
+                }
+                if (dateTo === "") {
+                    Events.makeInvalid(dateToInput, "Выберите конец срока заявки");
+                    invalid = true;
+                } else {
+                    Events.makeValid(dateToInput);
+                }
+                if (invalid) {
+                    return;
+                }
+
                 Queries.addRequest({
                     ID: 0,
                     Assigner: {
@@ -99,7 +116,7 @@ export default class RequestCard extends BasicComponent {
                 }).then(() => {
                     Events.openAlertMessage("Запрос успешно обновлён", "ОК", () => {
                         eventBus.closeEvent();
-                        window.history.pushState(null, '', window.location.href);
+                        window.location.reload();
                     });
                 }).catch(() => {
                     Events.openAlertMessage("Не удалось обновить запрос", "ОК", Events.closeAlertMessage);

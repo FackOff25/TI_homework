@@ -21,7 +21,7 @@ export default class EmploeeList extends BasicComponent {
         this.root = this.view.render();
 
         emploeeList.sort((e1: EmploeeInfo, e2: EmploeeInfo) => {
-            if (e1.ID > e2.ID){
+            if (parseInt(e1.ID) > parseInt(e2.ID)){
                 return 1;
             }
             return -1;

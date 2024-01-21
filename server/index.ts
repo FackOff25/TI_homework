@@ -36,29 +36,37 @@ app.get(/icons\.svg/, (req: any, res: any) => {
     res.sendFile(path.resolve(__dirname, 'front', 'public', 'icons.svg'));
 })
 app.get(/queries\/emploee\/get\/all/, async (req: any, res: any) => {
-    const emploees = await database.getEmploees();
+    try {
+        const emploees = await database.getEmploees();
 
-    res.StatusCode = 200;
-    res.StatusMessage = 'OK';
-    res.json({emploees});
+        res.StatusCode = 200;
+        res.StatusMessage = 'OK';
+        res.json({emploees});
+    } catch (err) {
+        res.status(500).send('INTERNAL');
+    }
 })
 app.get('/queries/emploee/get/:userId([0-9]+)', async (req: any, res: any) => {
-    const emploee = await database.getEmploee(req.params.userId);
+    try {
+        const emploee = await database.getEmploee(req.params.userId);
 
-    res.StatusCode = 200;
-    res.StatusMessage = 'OK';
-    res.json({emploee});
+        res.StatusCode = 200;
+        res.StatusMessage = 'OK';
+        res.json({emploee});
+    } catch (err) {
+        res.status(404).send('NOT/FOUND');
+    }
 })
 app.post(/queries\/emploee\/delete/, async (req: any, res: any) => {
-    database.deleteEmploee(req.body.code).then(() => {
+    try {
+        await database.deleteEmploee(req.body.code);
+
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
         res.end();
-    }).catch(() => {
-        res.StatusCode = 404;
-        res.StatusMessage = 'NOT/FOUND';
-        res.end();
-    });
+    } catch (err) {
+        res.status(404).send('NOT/FOUND');
+    };
 })
 app.post(/queries\/emploee\/add/, async (req: any, res: any) => {
     const emploee: Emploee = {
@@ -66,15 +74,15 @@ app.post(/queries\/emploee\/add/, async (req: any, res: any) => {
         surname: req.body.surname,
         fathername: req.body.fathername
     }
-    database.addEmploee(emploee).then(() => {
+    try {
+        await database.addEmploee(emploee);
+
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
         res.end();
-    }).catch(() => {
-        res.StatusCode = 400;
-        res.StatusMessage = 'BAD/REQUEST';
-        res.end();
-    });
+    } catch (err) {
+        res.status(400).send('BAD/REQUEST');
+    };
 })
 app.post(/queries\/emploee\/update/, async (req: any, res: any) => {
     const emploee: Emploee = {
@@ -83,34 +91,37 @@ app.post(/queries\/emploee\/update/, async (req: any, res: any) => {
         surname: req.body.surname,
         fathername: req.body.fathername
     }
-    database.updateEmploee(emploee).then(() => {
+    try {
+        await database.updateEmploee(emploee)
+
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
         res.end();
-    }).catch(() => {
-        res.StatusCode = 400;
-        res.StatusMessage = 'BAD/REQUEST';
-        res.end();
-    });
+    } catch (err) {
+        res.status(400).send('BAD/REQUEST');
+    };
 })
 app.get(/queries\/equipment\/get\/all/, async (req: any, res: any) => {
-    const equipment = await database.getEquipment();
+    try {
+        const equipment = await database.getEquipment();
 
-    res.StatusCode = 200;
-    res.StatusMessage = 'OK';
-    res.json({equipment});
+        res.StatusCode = 200;
+        res.StatusMessage = 'OK';
+        res.json({equipment});
+    } catch (err) {
+        res.status(404).send('NOT/FOUND');
+    }
 })
 app.get('/queries/request/get/list/:userId([0-9]+)', async (req: any, res: any) => {
-    database.getRequests(req.params.userId).then((requests) => {
+    try {
+        const requests = await database.getRequests(req.params.userId);
+
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
         res.json({requests});
-        res.end();
-    }).catch(() => {
-        res.StatusCode = 400;
-        res.StatusMessage = 'BAD/REQUEST';
-        res.end();
-    });
+    } catch (err) {
+        res.status(400).send('BAD/REQUEST');
+    };
 })
 app.post(/queries\/request\/add/, async (req: any, res: any) => {
     const request: EqRequest = {
@@ -119,26 +130,25 @@ app.post(/queries\/request\/add/, async (req: any, res: any) => {
         date_from: req.body.date_from,
         date_to: req.body.date_to
     }
-    database.addRequest(request).then(() => {
+    try {
+        await database.addRequest(request);
+
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
         res.end();
-    }).catch(() => {
-        res.StatusCode = 400;
-        res.StatusMessage = 'BAD/REQUEST';
-        res.end();
-    });
+    } catch (err) {
+        res.status(400).send('BAD/REQUEST');
+    };
 })
 app.post(/queries\/request\/delete/, async (req: any, res: any) => {
-    database.deleteRequest(req.body.id).then(() => {
+    try{ 
+        await database.deleteRequest(req.body.id);
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
         res.end();
-    }).catch(() => {
-        res.StatusCode = 404;
-        res.StatusMessage = 'NOT/FOUND';
-        res.end();
-    });
+    } catch (err) {
+        res.status(404).send('NOT/FOUND');
+    };
 })
 app.post(/queries\/request\/update/, async (req: any, res: any) => {
     const request: EqRequest = {
@@ -148,15 +158,15 @@ app.post(/queries\/request\/update/, async (req: any, res: any) => {
         date_from: req.body.date_from,
         date_to: req.body.date_to
     }
-    database.updateRequest(request).then(() => {
+    try {
+        await database.updateRequest(request);
+
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
         res.end();
-    }).catch(() => {
-        res.StatusCode = 400;
-        res.StatusMessage = 'BAD/REQUEST';
-        res.end();
-    });
+    } catch (err) {
+        res.status(404).send('NOT/FOUND');
+    };
 })
 app.get(/.*/, (req: any, res: any) => {
     res.sendFile(path.resolve(__dirname, 'front', 'public', 'index.html'));

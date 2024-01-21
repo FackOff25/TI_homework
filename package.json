@@ -8,14 +8,12 @@
     "start": "npm run preProcess && PORT=8000 DEBUG=server node server",
     "preProcess": "npm run build:ts && npm run build:scss && npm run tmpl && npm run webpack-build",
     "build:ts": "tsc --build",
-    "tmpl": "front/templating.sh",
     "build:scss": "node-sass --output-style compressed front/public/static/css/index.scss > front/public/static/css/index.css",
-    "webpack-build": "cd ./front && NODE_ENV='development' webpack",
-    "demon": "npm run preProcess && sudo forever start front/server/index.js",
-    "lint": "npx eslint . --ext .js",
-    "stop": "forever stop front/server/index.js ",
-    "test": "echo \"Error: no test specified\" && exit 1",
+
+    "tmpl": "front/templating.sh",
     "deleteTemplates": "rm -rd \"front/public/components/tmpl\"",
+    "webpack-build": "cd ./front && NODE_ENV='development' webpack",
+
     "postgres": "npm run postgres:install && npm run postgres:makeDB",
     "postgres:install": "sudo apt-get install -y postgresql postgresql-contrib",
     "postgres:makeDB": "sudo ./database/db_installer.sh",

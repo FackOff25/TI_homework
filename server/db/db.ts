@@ -156,6 +156,17 @@ export default class DB {
         }
     }
 
+    async getRequestsByEquipment(id: number): Promise<any[] | undefined>{
+        try {
+            const requests = await this.#dbClient?.query(
+                `select id, equipment, date_from, date_to from request where equipment=${id};`
+            )
+            return requests?.rows;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     async getRequest(id: number): Promise<any | undefined>{
         try {
             const request = await this.#dbClient?.query(

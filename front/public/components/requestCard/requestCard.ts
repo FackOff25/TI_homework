@@ -88,8 +88,13 @@ export default class RequestCard extends BasicComponent {
                         eventBus.closeEvent();
                         window.location.reload();
                     });
-                }).catch(() => {
-                    Events.openAlertMessage("Не удалось добавить запрос", "ОК", Events.closeAlertMessage);
+                }).catch((err) => {
+                    console.log(err);
+                    if (err === 403){
+                        Events.openAlertMessage("Время заявки пересекается с другой заявкой на это оборудование", "ОК", Events.closeAlertMessage);
+                    }else{
+                        Events.openAlertMessage("Не удалось добавить запрос", "ОК", Events.closeAlertMessage);
+                    }
                 })
             };
         }else{
@@ -118,8 +123,12 @@ export default class RequestCard extends BasicComponent {
                         eventBus.closeEvent();
                         window.location.reload();
                     });
-                }).catch(() => {
-                    Events.openAlertMessage("Не удалось обновить запрос", "ОК", Events.closeAlertMessage);
+                }).catch((err) => {
+                    if (err === 403){
+                        Events.openAlertMessage("Время заявки пересекается с другой заявкой на это оборудование", "ОК", Events.closeAlertMessage);
+                    }else{
+                        Events.openAlertMessage("Не удалось обновить запрос", "ОК", Events.closeAlertMessage);
+                    }
                 })
             };
         }

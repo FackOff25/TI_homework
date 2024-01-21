@@ -41,7 +41,7 @@ app.get(/queries\/emploee\/get\/all/, async (req: any, res: any) => {
 
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
-        res.json({emploees});
+        res.json({ emploees });
     } catch (err) {
         res.status(500).send('INTERNAL');
     }
@@ -52,7 +52,7 @@ app.get('/queries/emploee/get/:userId([0-9]+)', async (req: any, res: any) => {
 
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
-        res.json({emploee});
+        res.json({ emploee });
     } catch (err) {
         res.status(404).send('NOT/FOUND');
     }
@@ -107,7 +107,7 @@ app.get(/queries\/equipment\/get\/all/, async (req: any, res: any) => {
 
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
-        res.json({equipment});
+        res.json({ equipment });
     } catch (err) {
         res.status(404).send('NOT/FOUND');
     }
@@ -118,7 +118,7 @@ app.get('/queries/request/get/list/:userId([0-9]+)', async (req: any, res: any) 
 
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
-        res.json({requests});
+        res.json({ requests });
     } catch (err) {
         res.status(400).send('BAD/REQUEST');
     };
@@ -130,7 +130,14 @@ app.post(/queries\/request\/add/, async (req: any, res: any) => {
         date_from: req.body.date_from,
         date_to: req.body.date_to
     }
+
     try {
+        const eqRequests = await database.getRequestsByEquipment(request.equipment);
+        if (!isAvailable(new Date(request.date_from), new Date(request.date_to), eqRequests as EqRequest[])){
+            res.status(403).send('CONFLICT');
+            return;
+        }
+
         await database.addRequest(request);
 
         res.StatusCode = 200;
@@ -141,7 +148,7 @@ app.post(/queries\/request\/add/, async (req: any, res: any) => {
     };
 })
 app.post(/queries\/request\/delete/, async (req: any, res: any) => {
-    try{ 
+    try {
         await database.deleteRequest(req.body.id);
         res.StatusCode = 200;
         res.StatusMessage = 'OK';
@@ -159,6 +166,12 @@ app.post(/queries\/request\/update/, async (req: any, res: any) => {
         date_to: req.body.date_to
     }
     try {
+        const eqRequests = await database.getRequestsByEquipment(request.equipment);
+        if (!isAvailable(new Date(request.date_from), new Date(request.date_to), eqRequests as EqRequest[])){
+            res.status(403).send('CONFLICT');
+            return;
+        }
+
         await database.updateRequest(request);
 
         res.StatusCode = 200;
@@ -175,12 +188,29 @@ app.get(/.*/, (req: any, res: any) => {
 
 
 app.listen(port, async function () {
-    try{
+    try {
         await database.connect();
-    }catch (error){
+    } catch (error) {
         console.log('Terminate');
         process.exit(1);
     }
 
     console.log(`Server listening port ${port}`);
 });
+
+function isAvailable(dateFrom: Date, dateTo: Date, requests: EqRequest[]): boolean {
+    if (dateFrom > dateTo) {
+        return false;
+    };
+
+    for (let i = 0; i < requests.length; ++i) {
+        const from = new Date(requests[i].date_from);
+        const to = new Date(requests[i].date_to);
+        if ((dateFrom > from && dateFrom < to) ||
+            (dateTo > from && dateTo < to) ||
+            (dateFrom < from && dateTo > to )){
+                return false;
+            }
+    }
+    return true;
+}

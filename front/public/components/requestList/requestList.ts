@@ -3,6 +3,7 @@ import BasicComponent from "../_basicComponent/basicComponent.js";
 import RequestListView from "./requestListView.js";
 import RequestListElement from "../requestListElement/requestListElement.js";
 import { RequestInfo } from "../../common/types.js";
+import RequestListElementEmptyView from "../requestListElementEmpty/requestListElementEmptyView.js";
 
 /**
  * ViewModel-компонент соответсвующего View
@@ -20,6 +21,12 @@ export default class RequestList extends BasicComponent {
 
     render(requestList: RequestInfo[]): HTMLElement {
         this.root = this.view.render();
+
+        if (requestList.length === 0) {
+            const element = new RequestListElementEmptyView();
+            this.root.appendChild(element.render());
+            return this.root;
+        }
 
         requestList.sort((r1: RequestInfo, r2: RequestInfo) => {
             if (r1.From > r2.From){

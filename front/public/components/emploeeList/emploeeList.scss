@@ -17,6 +17,11 @@
     border-color: $slight-darker-dark;
     border-style: solid;
 
+    &__empty{
+      text-align: center;
+      padding: 10px;
+    }
+
     &__column{
       border-left: 0px;
       border-right: 0px;

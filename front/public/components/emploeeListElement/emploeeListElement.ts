@@ -6,6 +6,7 @@ import { PageLoaders } from "../../modules/pageLoaders.js";
 import { URIChanger } from "../../modules/uriChanger.js";
 import { Requests } from "../../modules/requests.js";
 import { Queries } from "../../modules/queries.js";
+import EmploeeListElementEmptyView from "../emploeeListElementEmpty/emploeeListElementEmptyView.js";
 
 export type EmploeeListElementEventBus = {
     editEmploee: () => void;
@@ -59,6 +60,10 @@ export default class EmploeeListElement extends BasicComponent {
                     Events.openAlertMessage("Не удалось удалить сотрудника", "ОК", Events.closeAlertMessage);
                 }).then(() => {
                     this.root.remove();
+                    if (document.getElementsByClassName("emploee_list__element").length == 0) {
+                        const element = new EmploeeListElementEmptyView();
+                        document.querySelector(".emploee_list")!.appendChild(element.render());
+                    }
                 })
             },
         }

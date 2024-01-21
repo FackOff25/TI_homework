@@ -3,6 +3,7 @@ import { RequestInfo, Subscription } from "../../common/types.js";
 import RequestListElementView from "./requestListElementView.js";
 import { Events } from "../../modules/events.js";
 import { Queries } from "../../modules/queries.js";
+import RequestListElementEmptyView from "../requestListElementEmpty/requestListElementEmptyView.js";
 
 export type RequestListElementEventBus = {
     editRequest: () => void;
@@ -57,6 +58,10 @@ export default class RequestListElement extends BasicComponent {
             listener: () => {
                 Queries.deleteRequest(this.request.ID).then(() => {
                     this.root.remove();
+                    if (document.getElementsByClassName("request_list__element").length == 0) {
+                        const element = new RequestListElementEmptyView();
+                        document.querySelector(".request_list")!.appendChild(element.render());
+                    }
                 }).catch(() => {
                     Events.openAlertMessage("Не удалось удалить запрос", "ОК", Events.closeAlertMessage);
                 })

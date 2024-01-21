@@ -22,7 +22,7 @@ export default class RequestList extends BasicComponent {
         this.root = this.view.render();
 
         requestList.sort((r1: RequestInfo, r2: RequestInfo) => {
-            if (r1.ID > r2.ID){
+            if (r1.From > r2.From){
                 return 1;
             }
             return -1;

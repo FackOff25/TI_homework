@@ -2,10 +2,6 @@ import PageView from "../_basic/pageView.js";
 import Navbar from "../../components/navbar/navbar.js";
 import Sidebar from "../../components/sideBar/sidebar.js";
 import EmploeeList from "../../components/emploeeList/emploeeList.js";
-import { EmploeeInfo } from "../../common/types.js";
-import { Events } from "../../modules/events.js";
-import { EmploeeCardInfo } from "../../components/emploeeCard/emploeeCardView.js";
-import { emploeesList } from "../../common/mockData.js";
 import { Queries } from "../../modules/queries.js";
 
 /**

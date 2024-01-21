@@ -20,7 +20,6 @@ export class Events {
 
     static #requestCardEventBus: RequestCardEventBus = {
         closeEvent: Events.#closeOverlay,
-
     }
 
     /**

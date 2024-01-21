@@ -1,4 +1,3 @@
-import { emploeesList, equipmentList, requestList } from "../common/mockData.js";
 import { EmploeeInfo, Equipment, RequestInfo } from "../common/types";
 import { Requests } from "./requests.js";
 

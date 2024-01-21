@@ -18,7 +18,8 @@
     "postgres:install": "sudo apt-get install -y postgresql postgresql-contrib",
     "postgres:makeDB": "sudo ./database/db_installer.sh",
     "postgres:dropDB": "sudo ./database/db_dropper.sh",
-    "postgres:refresh": "sudo ./database/db_eraser.sh && sudo ./database/db_filler.sh"
+    "postgres:refresh": "sudo ./database/db_eraser.sh && sudo ./database/db_filler.sh",
+    "postgres:look": "sudo ./database/db_viewer.sh"
   },
   "repository": {
     "type": "git",
